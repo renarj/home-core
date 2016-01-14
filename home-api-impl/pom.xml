@@ -2,21 +2,19 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-
     <parent>
-        <groupId>com.oberasoftware</groupId>
         <artifactId>home-core</artifactId>
+        <groupId>com.oberasoftware</groupId>
         <version>1.0-SNAPSHOT</version>
     </parent>
+    <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>eventbus-kafka</artifactId>
-    <version>1.0-SNAPSHOT</version>
-    <packaging>jar</packaging>
-
-    <properties>
-    </properties>
+    <artifactId>home-api-impl</artifactId>
 
     <dependencies>
+        <dependency>
+            <groupId>com.oberasoftware</groupId>
+            <artifactId>home-api</artifactId>
+        </dependency>
     </dependencies>
 </project>

@@ -16,6 +16,7 @@
 
     <properties>
         <obera.base.version>1.1-SNAPSHOT</obera.base.version>
+        <home.api.version>1.0-SNAPSHOT</home.api.version>
     </properties>
 
     <developers>
@@ -83,11 +84,38 @@
                 <artifactId>org.eclipse.paho.client.mqttv3</artifactId>
                 <version>1.0.2</version>
             </dependency>
+
+            <!-- obera deps -->
+            <dependency>
+                <groupId>com.oberasoftware</groupId>
+                <artifactId>home-api</artifactId>
+                <version>${home.api.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.oberasoftware</groupId>
+                <artifactId>home-api-impl</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.oberasoftware</groupId>
+                <artifactId>home-util</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <!-- test deps -->
+            <dependency>
+                <groupId>io.moquette</groupId>
+                <artifactId>moquette-broker</artifactId>
+                <version>0.8-SNAPSHOT</version>
+                <scope>test</scope>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
     <modules>
         <module>eventbus-kafka</module>
         <module>eventbus-mqtt</module>
+        <module>home-util</module>
+        <module>home-api-impl</module>
     </modules>
 </project>

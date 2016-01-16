@@ -16,7 +16,7 @@
 
     <properties>
         <obera.base.version>1.1-SNAPSHOT</obera.base.version>
-        <home.api.version>1.0-SNAPSHOT</home.api.version>
+        <home.sdk.version>1.0-SNAPSHOT</home.sdk.version>
     </properties>
 
     <developers>
@@ -89,12 +89,12 @@
             <dependency>
                 <groupId>com.oberasoftware</groupId>
                 <artifactId>home-api</artifactId>
-                <version>${home.api.version}</version>
+                <version>${home.sdk.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.oberasoftware</groupId>
-                <artifactId>home-api-impl</artifactId>
-                <version>${project.version}</version>
+                <artifactId>home-model</artifactId>
+                <version>${home.sdk.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.oberasoftware</groupId>
@@ -116,6 +116,5 @@
         <module>eventbus-kafka</module>
         <module>eventbus-mqtt</module>
         <module>home-util</module>
-        <module>home-api-impl</module>
     </modules>
 </project>

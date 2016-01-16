@@ -28,7 +28,7 @@
         </dependency>
         <dependency>
             <groupId>com.oberasoftware</groupId>
-            <artifactId>home-api-impl</artifactId>
+            <artifactId>home-model</artifactId>
         </dependency>
         <dependency>
             <groupId>io.moquette</groupId>

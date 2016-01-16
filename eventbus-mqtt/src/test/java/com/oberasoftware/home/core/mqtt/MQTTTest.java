@@ -1,29 +1,26 @@
 package com.oberasoftware.home.core.mqtt;
 
+import com.google.common.util.concurrent.Uninterruptibles;
 import com.oberasoftware.base.BaseConfiguration;
 import com.oberasoftware.home.api.impl.events.devices.DeviceValueEventImpl;
 import com.oberasoftware.home.api.impl.types.ValueImpl;
 import com.oberasoftware.home.api.types.VALUE_TYPE;
-import com.oberasoftware.home.api.types.Value;
 import io.moquette.server.Server;
 import io.moquette.server.config.ClasspathConfig;
 import io.moquette.server.config.IConfig;
-import org.junit.*;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.Import;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -74,6 +71,8 @@ public class MQTTTest {
 
         topicEventBus.publish(new DeviceValueEventImpl("testController", "plugin1", "device1",
                 new ValueImpl(VALUE_TYPE.DECIMAL, 100.5), "power"));
+
+        Uninterruptibles.sleepUninterruptibly(10, TimeUnit.SECONDS);
 
         assertThat(testListener.getLastMessage(), notNullValue());
         assertThat(testListener.getLastTopic(), notNullValue());

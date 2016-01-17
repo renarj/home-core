@@ -72,8 +72,10 @@ public class MQTTTest {
         topicEventBus.publish(new DeviceValueEventImpl("testController", "plugin1", "device1",
                 new ValueImpl(VALUE_TYPE.DECIMAL, 100.5), "power"));
 
-        Uninterruptibles.sleepUninterruptibly(10, TimeUnit.SECONDS);
+        LOG.info("Awaiting message");
+        testListener.await();
 
+        LOG.info("Received a message, asserting");
         assertThat(testListener.getLastMessage(), notNullValue());
         assertThat(testListener.getLastTopic(), notNullValue());
     }

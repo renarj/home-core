@@ -121,6 +121,5 @@
     <modules>
         <module>eventbus-kafka</module>
         <module>eventbus-mqtt</module>
-        <module>home-util</module>
     </modules>
 </project>

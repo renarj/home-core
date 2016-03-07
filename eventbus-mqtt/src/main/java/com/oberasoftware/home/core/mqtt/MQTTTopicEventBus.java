@@ -44,7 +44,7 @@ public class MQTTTopicEventBus implements DistributedTopicEventBus {
 
     @PostConstruct
     public void initialize() throws HomeAutomationException {
-        broker = new MQTTBroker(mqttHost);
+        broker = new MQTTBroker(mqttHost, mqttUsername, mqttPassword);
     }
 
     @Override
@@ -70,7 +70,7 @@ public class MQTTTopicEventBus implements DistributedTopicEventBus {
     public void connect() {
         try {
             broker.connect();
-            LOG.info("Connected to MQTT Broker: {}", mqttHost);
+            LOG.info("Connected to MQTT Broker: {} with user: {}", mqttHost, mqttUsername);
         } catch (HomeAutomationException e) {
             throw new RuntimeHomeAutomationException("Unable to connect to MQTT Broker", e);
         }

@@ -25,8 +25,14 @@ import java.util.List;
 public class MQTTTopicEventBus implements DistributedTopicEventBus {
     private static final Logger LOG = LoggerFactory.getLogger(MQTTTopicEventBus.class);
 
-    @Value("${mqttHost}")
+    @Value("${mqtt.host}")
     private String mqttHost;
+
+    @Value("${mqtt.username:}")
+    private String mqttUsername;
+
+    @Value("${mqtt.password:}")
+    private String mqttPassword;
 
     @Autowired
     private ConvertManager convertManager;

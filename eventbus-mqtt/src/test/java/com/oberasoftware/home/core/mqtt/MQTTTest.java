@@ -1,6 +1,5 @@
 package com.oberasoftware.home.core.mqtt;
 
-import com.google.common.util.concurrent.Uninterruptibles;
 import com.oberasoftware.base.BaseConfiguration;
 import com.oberasoftware.home.api.impl.events.devices.DeviceValueEventImpl;
 import com.oberasoftware.home.api.impl.types.ValueImpl;
@@ -20,7 +19,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.io.IOException;
-import java.util.concurrent.TimeUnit;
 
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -48,8 +46,6 @@ public class MQTTTest {
         server = new Server();
         server.startServer(config);
         LOG.info("Started Moquitto MQTT server");
-
-
     }
 
     @After

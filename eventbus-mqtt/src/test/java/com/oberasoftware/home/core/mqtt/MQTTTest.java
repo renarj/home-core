@@ -4,9 +4,9 @@ import com.oberasoftware.base.BaseConfiguration;
 import com.oberasoftware.home.api.impl.events.devices.DeviceValueEventImpl;
 import com.oberasoftware.home.api.impl.types.ValueImpl;
 import com.oberasoftware.home.api.types.VALUE_TYPE;
-import io.moquette.server.Server;
-import io.moquette.server.config.ClasspathConfig;
-import io.moquette.server.config.IConfig;
+import com.oberasoftware.mqtt.broker.MQTTContainer;
+import com.oberasoftware.mqtt.broker.server.Server;
+import com.oberasoftware.mqtt.broker.server.config.MemoryConfig;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -27,7 +27,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
  * @author Renze de Vries
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {MQTTConfiguration.class, TestConfiguration.class, BaseConfiguration.class} )
+@ContextConfiguration(classes = {MQTTConfiguration.class, TestConfiguration.class, BaseConfiguration.class, MQTTContainer.class} )
 @DirtiesContext
 public class MQTTTest {
     private static final Logger LOG = LoggerFactory.getLogger(MQTTTest.class);
@@ -38,12 +38,15 @@ public class MQTTTest {
     @Autowired
     private TestListener testListener;
 
+    @Autowired
     private Server server;
 
     @Before
     public void setUp() throws IOException {
-        IConfig config = new ClasspathConfig();
-        server = new Server();
+        MemoryConfig config = new MemoryConfig();
+        config.setWebsocketPort(9080);
+        config.setPort(9009);
+
         server.startServer(config);
         LOG.info("Started Moquitto MQTT server");
     }

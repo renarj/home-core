@@ -2,8 +2,11 @@ package com.oberasoftware.home.core.mqtt;
 
 import com.oberasoftware.base.event.EventFilter;
 import com.oberasoftware.base.event.HandlerEntry;
+import com.oberasoftware.home.api.exceptions.RuntimeHomeAutomationException;
 
 import java.lang.reflect.Method;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @author Renze de Vries
@@ -11,6 +14,8 @@ import java.lang.reflect.Method;
 public class MQTTPathFilter implements EventFilter {
 
     private static final String PATH_REGEX = "/(.*)/(.*)/(.*)/(.*)";
+    private static final Pattern PATH_PATTERN = Pattern.compile(PATH_REGEX);
+    private static final int GROUP_COUNT = 4;
 
     @Override
     public boolean isFiltered(Object o, HandlerEntry handlerEntry) {
@@ -38,8 +43,24 @@ public class MQTTPathFilter implements EventFilter {
      * @return
      */
     private boolean isPathSupported(MQTTPath supportedPath, String actualPath) {
+        ParsedPath parsedPath = parsePath(actualPath);
 
 
         return false;
     }
+
+    private ParsedPath parsePath(String path) {
+        Matcher matched = PATH_PATTERN.matcher(path);
+        if(matched.find() && matched.groupCount() == GROUP_COUNT) {
+            String group = matched.group(1);
+            String controllerId = matched.group(2);
+            String device = matched.group(3);
+            String label = matched.group(4);
+
+            return new ParsedPath(MessageGroup.fromGroup(group), controllerId, device, label);
+        } else {
+            throw new RuntimeHomeAutomationException("Could not parse message path: " + path);
+        }
+    }
+
 }

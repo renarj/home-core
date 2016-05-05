@@ -11,9 +11,9 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 public @interface MQTTPath {
-    String channel();
+    String channel() default "*";
 
-    String controller() default "";
+    String controller() default "*";
 
-    String device() default "";
+    String device() default "*";
 }

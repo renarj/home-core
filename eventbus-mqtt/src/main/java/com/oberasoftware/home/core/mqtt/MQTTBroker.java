@@ -4,6 +4,7 @@ import com.oberasoftware.home.api.exceptions.HomeAutomationException;
 import org.eclipse.paho.client.mqttv3.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -16,6 +17,9 @@ public class MQTTBroker {
     private static final Logger LOG = LoggerFactory.getLogger(MQTTBroker.class);
 
     private final String host;
+    private String username = null;
+    private String password = null;
+
     private MqttClient client;
     private final AtomicBoolean connected = new AtomicBoolean(false);
 
@@ -23,6 +27,12 @@ public class MQTTBroker {
 
     public MQTTBroker(String host) {
         this.host = host;
+    }
+
+    public MQTTBroker(String host, String username, String password) {
+        this.host = host;
+        this.username = username;
+        this.password = password;
     }
 
     public synchronized void connect() throws HomeAutomationException {
@@ -44,7 +54,14 @@ public class MQTTBroker {
                     LOG.debug("delivery complete");
                 }
             });
-            client.connect();
+
+            if(!StringUtils.isEmpty(username) && !StringUtils.isEmpty(password)) {
+                MqttConnectOptions options = new MqttConnectOptions();
+                options.setUserName(username);
+                options.setPassword(password.toCharArray());
+                client.connect(options);
+            }
+
             connected.set(true);
         } catch (MqttException e) {
             throw new HomeAutomationException("Could not connect to MQTT broker: " + host);

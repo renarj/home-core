@@ -1,6 +1,9 @@
 package com.oberasoftware.home.core.mqtt;
 
-import com.oberasoftware.base.event.*;
+import com.oberasoftware.base.event.DistributedTopicEventBus;
+import com.oberasoftware.base.event.Event;
+import com.oberasoftware.base.event.EventFilter;
+import com.oberasoftware.base.event.EventHandler;
 import com.oberasoftware.base.event.impl.LocalEventBus;
 import com.oberasoftware.home.api.converters.ConvertManager;
 import com.oberasoftware.home.api.exceptions.ConversionException;
@@ -13,10 +16,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import java.lang.reflect.Method;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * @author Renze de Vries
@@ -25,8 +25,14 @@ import java.util.Optional;
 public class MQTTTopicEventBus implements DistributedTopicEventBus {
     private static final Logger LOG = LoggerFactory.getLogger(MQTTTopicEventBus.class);
 
-    @Value("${mqttHost}")
+    @Value("${mqtt.host}")
     private String mqttHost;
+
+    @Value("${mqtt.username:}")
+    private String mqttUsername;
+
+    @Value("${mqtt.password:}")
+    private String mqttPassword;
 
     @Autowired
     private ConvertManager convertManager;
@@ -38,7 +44,7 @@ public class MQTTTopicEventBus implements DistributedTopicEventBus {
 
     @PostConstruct
     public void initialize() throws HomeAutomationException {
-        broker = new MQTTBroker(mqttHost);
+        broker = new MQTTBroker(mqttHost, mqttUsername, mqttPassword);
         localEventBus.registerFilter(new MQTTPathFilter());
     }
 
@@ -65,7 +71,7 @@ public class MQTTTopicEventBus implements DistributedTopicEventBus {
     public void connect() {
         try {
             broker.connect();
-            LOG.info("Connected to MQTT Broker: {}", mqttHost);
+            LOG.info("Connected to MQTT Broker: {} with user: {}", mqttHost, mqttUsername);
         } catch (HomeAutomationException e) {
             throw new RuntimeHomeAutomationException("Unable to connect to MQTT Broker", e);
         }

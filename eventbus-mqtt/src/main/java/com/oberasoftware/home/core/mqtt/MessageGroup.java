@@ -6,7 +6,7 @@ package com.oberasoftware.home.core.mqtt;
 public enum MessageGroup {
     STATES("states"),
     COMMANDS("commands"),
-    UNKNOWN("unknown");
+    ALL("all");
 
     private String group;
 
@@ -21,6 +21,6 @@ public enum MessageGroup {
             }
         }
 
-        return UNKNOWN;
+        return ALL;
     }
 }

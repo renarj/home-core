@@ -17,6 +17,8 @@ public class MQTTPathFilter implements EventFilter {
     private static final Pattern PATH_PATTERN = Pattern.compile(PATH_REGEX);
     private static final int GROUP_COUNT = 4;
 
+    private static final String WILD_CARD = "*";
+
     @Override
     public boolean isFiltered(Object o, HandlerEntry handlerEntry) {
         if(o instanceof MQTTMessageImpl) {
@@ -45,8 +47,19 @@ public class MQTTPathFilter implements EventFilter {
     private boolean isPathSupported(MQTTPath supportedPath, String actualPath) {
         ParsedPath parsedPath = parsePath(actualPath);
 
+        boolean controllerMatched = isMatched(parsedPath.getControllerId(), supportedPath.controller());
+        boolean deviceMatched = isMatched(parsedPath.getDeviceId(), supportedPath.device());
+        boolean labelMatched = isMatched(parsedPath.getLabel(), supportedPath.label());
+        boolean groupMatched = supportedPath.group() == MessageGroup.ALL ||
+                parsedPath.getMessageGroup() == supportedPath.group();
 
-        return false;
+        return controllerMatched && deviceMatched && labelMatched && groupMatched;
+    }
+
+    private boolean isMatched(String path, String supportedPath) {
+        return supportedPath.equalsIgnoreCase(WILD_CARD)
+                || supportedPath.equalsIgnoreCase(path);
+
     }
 
     private ParsedPath parsePath(String path) {

@@ -11,9 +11,11 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 public @interface MQTTPath {
-    String channel() default "*";
+    MessageGroup group() default MessageGroup.ALL;
 
     String controller() default "*";
 
     String device() default "*";
+
+    String label() default "*";
 }

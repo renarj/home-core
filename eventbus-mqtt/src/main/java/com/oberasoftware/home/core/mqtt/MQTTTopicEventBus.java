@@ -1,9 +1,6 @@
 package com.oberasoftware.home.core.mqtt;
 
-import com.oberasoftware.base.event.DistributedTopicEventBus;
-import com.oberasoftware.base.event.Event;
-import com.oberasoftware.base.event.EventFilter;
-import com.oberasoftware.base.event.EventHandler;
+import com.oberasoftware.base.event.*;
 import com.oberasoftware.base.event.impl.LocalEventBus;
 import com.oberasoftware.home.api.converters.ConvertManager;
 import com.oberasoftware.home.api.exceptions.ConversionException;
@@ -16,7 +13,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import java.lang.reflect.Method;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author Renze de Vries
@@ -39,6 +39,7 @@ public class MQTTTopicEventBus implements DistributedTopicEventBus {
     @PostConstruct
     public void initialize() throws HomeAutomationException {
         broker = new MQTTBroker(mqttHost);
+        localEventBus.registerFilter(new MQTTPathFilter());
     }
 
     @Override

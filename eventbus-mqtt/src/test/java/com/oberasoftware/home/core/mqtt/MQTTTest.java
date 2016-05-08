@@ -38,13 +38,13 @@ public class MQTTTest {
     @Autowired
     private TestListener testListener;
 
-    private Server server;
+    private Server server = new Server();
 
     @Before
     public void setUp() throws IOException {
         MemoryConfig config = new MemoryConfig(new Properties());
-        config.setProperty("port", "9080");
-        config.setProperty("websocket_port", "9009");
+        config.setProperty("port", "9009");
+        config.setProperty("websocket_port", "9080");
 
         server.startServer(config);
         LOG.info("Started Moquitto MQTT server");

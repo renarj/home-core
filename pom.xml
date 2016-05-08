@@ -49,6 +49,16 @@
                 <enabled>false</enabled>
             </snapshots>
         </repository>
+        <repository>
+            <id>bintray</id>
+            <url>http://dl.bintray.com/andsel/maven/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
     </repositories>
 
     <distributionManagement>
@@ -101,10 +111,21 @@
                 <artifactId>home-util</artifactId>
                 <version>${project.version}</version>
             </dependency>
+            <!--<dependency>-->
+                <!--<groupId>com.oberasoftware</groupId>-->
+                <!--<artifactId>mqtt-broker</artifactId>-->
+                <!--<version>${project.version}</version>-->
+            <!--</dependency>-->
             <dependency>
-                <groupId>com.oberasoftware</groupId>
-                <artifactId>mqtt-broker</artifactId>
-                <version>${project.version}</version>
+                <groupId>io.moquette</groupId>
+                <artifactId>moquette-broker</artifactId>
+                <version>0.8</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-all</artifactId>
+                <version>1.9.5</version>
+                <scope>test</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -112,5 +133,6 @@
     <modules>
         <module>eventbus-kafka</module>
         <module>eventbus-mqtt</module>
+        <module>moquette-spring</module>
     </modules>
 </project>

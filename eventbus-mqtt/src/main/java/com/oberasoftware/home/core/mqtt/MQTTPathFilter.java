@@ -2,7 +2,8 @@ package com.oberasoftware.home.core.mqtt;
 
 import com.oberasoftware.base.event.EventFilter;
 import com.oberasoftware.base.event.HandlerEntry;
-import com.oberasoftware.home.api.exceptions.RuntimeHomeAutomationException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Method;
 import java.util.regex.Matcher;
@@ -12,6 +13,8 @@ import java.util.regex.Pattern;
  * @author Renze de Vries
  */
 public class MQTTPathFilter implements EventFilter {
+    private static final Logger LOG = LoggerFactory.getLogger(MQTTPathFilter.class);
+
 
     private static final String PATH_REGEX = "/(.*)/(.*)/(.*)/(.*)";
     private static final Pattern PATH_PATTERN = Pattern.compile(PATH_REGEX);
@@ -22,6 +25,7 @@ public class MQTTPathFilter implements EventFilter {
     @Override
     public boolean isFiltered(Object o, HandlerEntry handlerEntry) {
         if(o instanceof MQTTMessageImpl) {
+            LOG.debug("Checking filter on message: {}", o);
             MQTTMessageImpl mqttMessage = (MQTTMessageImpl) o;
             Method eventMethod = handlerEntry.getEventMethod();
             MQTTPath mqttPath = eventMethod.getAnnotation(MQTTPath.class);
@@ -46,14 +50,16 @@ public class MQTTPathFilter implements EventFilter {
      */
     private boolean isPathSupported(MQTTPath supportedPath, String actualPath) {
         ParsedPath parsedPath = parsePath(actualPath);
-
-        boolean controllerMatched = isMatched(parsedPath.getControllerId(), supportedPath.controller());
-        boolean deviceMatched = isMatched(parsedPath.getDeviceId(), supportedPath.device());
-        boolean labelMatched = isMatched(parsedPath.getLabel(), supportedPath.label());
-        boolean groupMatched = supportedPath.group() == MessageGroup.ALL ||
-                parsedPath.getMessageGroup() == supportedPath.group();
-
-        return controllerMatched && deviceMatched && labelMatched && groupMatched;
+        if(parsedPath != null) {
+            boolean controllerMatched = isMatched(parsedPath.getControllerId(), supportedPath.controller());
+            boolean deviceMatched = isMatched(parsedPath.getDeviceId(), supportedPath.device());
+            boolean labelMatched = isMatched(parsedPath.getLabel(), supportedPath.label());
+            boolean groupMatched = supportedPath.group() == MessageGroup.ALL ||
+                    parsedPath.getMessageGroup() == supportedPath.group();
+            return controllerMatched && deviceMatched && labelMatched && groupMatched;
+        } else {
+            return false;
+        }
     }
 
     private boolean isMatched(String path, String supportedPath) {
@@ -72,7 +78,8 @@ public class MQTTPathFilter implements EventFilter {
 
             return new ParsedPath(MessageGroup.fromGroup(group), controllerId, device, label);
         } else {
-            throw new RuntimeHomeAutomationException("Could not parse message path: " + path);
+            LOG.debug("Invalid path: {}", path);
+            return null;
         }
     }
 

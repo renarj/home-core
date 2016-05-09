@@ -37,6 +37,7 @@ public class MQTTBroker {
 
     public synchronized void connect() throws HomeAutomationException {
         try {
+            LOG.info("Connecting to host: {}", host);
             client = new MqttClient(host, "haas");
             client.setCallback(new MqttCallback() {
                 @Override
@@ -46,6 +47,7 @@ public class MQTTBroker {
 
                 @Override
                 public void messageArrived(String s, MqttMessage mqttMessage) throws Exception {
+                    LOG.debug("Message arrived: {}", s);
                     listeners.forEach(l -> l.receive(s, new String(mqttMessage.getPayload())));
                 }
 
@@ -56,10 +58,14 @@ public class MQTTBroker {
             });
 
             if(!StringUtils.isEmpty(username) && !StringUtils.isEmpty(password)) {
+                LOG.info("Authentication details specified, using for connection");
                 MqttConnectOptions options = new MqttConnectOptions();
                 options.setUserName(username);
                 options.setPassword(password.toCharArray());
                 client.connect(options);
+            } else {
+                LOG.info("No authentication details, using anonymous connection");
+                client.connect();
             }
 
             connected.set(true);

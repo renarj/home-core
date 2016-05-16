@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -38,7 +39,7 @@ public class MQTTBroker {
     public synchronized void connect() throws HomeAutomationException {
         try {
             LOG.info("Connecting to host: {}", host);
-            client = new MqttClient(host, "haas");
+            client = new MqttClient(host, UUID.randomUUID().toString());
             client.setCallback(new MqttCallback() {
                 @Override
                 public void connectionLost(Throwable throwable) {

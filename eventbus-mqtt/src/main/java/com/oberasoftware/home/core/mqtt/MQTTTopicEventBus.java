@@ -50,6 +50,7 @@ public class MQTTTopicEventBus implements DistributedTopicEventBus {
 
     @Override
     public void subscribe(String topic) {
+        LOG.info("Subscribing to topic: {}", topic);
         broker.subscribeTopic(topic, (receivedTopic, payload) -> {
             LOG.info("Received a message on topic: {} with payload: {}", receivedTopic, payload);
 

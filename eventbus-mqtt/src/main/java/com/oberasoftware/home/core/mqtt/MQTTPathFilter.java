@@ -6,19 +6,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Method;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * @author Renze de Vries
  */
 public class MQTTPathFilter implements EventFilter {
     private static final Logger LOG = LoggerFactory.getLogger(MQTTPathFilter.class);
-
-
-    private static final String PATH_REGEX = "/(.*)/(.*)/(.*)/(.*)";
-    private static final Pattern PATH_PATTERN = Pattern.compile(PATH_REGEX);
-    private static final int GROUP_COUNT = 4;
 
     private static final String WILD_CARD = "*";
 
@@ -49,7 +42,7 @@ public class MQTTPathFilter implements EventFilter {
      * @return
      */
     private boolean isPathSupported(MQTTPath supportedPath, String actualPath) {
-        ParsedPath parsedPath = parsePath(actualPath);
+        ParsedPath parsedPath = MQTTPathParser.parsePath(actualPath);
         if(parsedPath != null) {
             boolean controllerMatched = isMatched(parsedPath.getControllerId(), supportedPath.controller());
             boolean deviceMatched = isMatched(parsedPath.getDeviceId(), supportedPath.device());
@@ -67,20 +60,4 @@ public class MQTTPathFilter implements EventFilter {
                 || supportedPath.equalsIgnoreCase(path);
 
     }
-
-    private ParsedPath parsePath(String path) {
-        Matcher matched = PATH_PATTERN.matcher(path);
-        if(matched.find() && matched.groupCount() == GROUP_COUNT) {
-            String group = matched.group(1);
-            String controllerId = matched.group(2);
-            String device = matched.group(3);
-            String label = matched.group(4);
-
-            return new ParsedPath(MessageGroup.fromGroup(group), controllerId, device, label);
-        } else {
-            LOG.debug("Invalid path: {}", path);
-            return null;
-        }
-    }
-
 }

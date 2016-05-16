@@ -113,11 +113,6 @@
                 <artifactId>home-util</artifactId>
                 <version>${project.version}</version>
             </dependency>
-            <!--<dependency>-->
-                <!--<groupId>com.oberasoftware</groupId>-->
-                <!--<artifactId>mqtt-broker</artifactId>-->
-                <!--<version>${project.version}</version>-->
-            <!--</dependency>-->
             <dependency>
                 <groupId>io.moquette</groupId>
                 <artifactId>moquette-broker</artifactId>
@@ -144,7 +139,7 @@
                 <plugin>
                     <groupId>com.spotify</groupId>
                     <artifactId>docker-maven-plugin</artifactId>
-                    <version>0.2.3</version>
+                    <version>0.4.9</version>
                     <configuration>
                         <imageName>${docker.image.prefix}/${project.artifactId}</imageName>
                         <dockerDirectory>src/main/docker</dockerDirectory>

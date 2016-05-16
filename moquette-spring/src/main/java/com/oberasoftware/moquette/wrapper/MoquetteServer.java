@@ -36,6 +36,8 @@ public class MoquetteServer {
         config.setProperty("port", Integer.toString(serverPort));
         config.setProperty("websocket_port", Integer.toString(websocketPort));
         config.setProperty("host", host);
+        config.setProperty("authenticator_class", SpringAuthenticationWrapper.class.toString());
+        config.setProperty("authorizator_class", SpringAuthorizationWrapper.class.toString());
 
         LOG.info("Starting Moquette on host: {} port: {} websocket: {}", host, serverPort, websocketPort);
         server = new Server();

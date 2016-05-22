@@ -3,9 +3,9 @@ package com.oberasoftware.home.kafka;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.oberasoftware.base.event.EventHandler;
 import com.oberasoftware.base.event.EventSubscribe;
+import com.oberasoftware.home.api.model.ValueTransportMessage;
 import com.oberasoftware.home.core.mqtt.*;
-import org.apache.kafka.clients.producer.KafkaProducer;
-import org.apache.kafka.clients.producer.ProducerRecord;
+import org.apache.kafka.clients.producer.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +27,7 @@ public class MQTTConsumerToKafkaProducer implements EventHandler {
         OBJECT_MAPPER.enableDefaultTyping();
     }
 
-    @Value("${kafka.host}")
+    @Value("${kafka.producer.host}")
     private String kafkaHost;
 
     @Autowired
@@ -41,8 +41,8 @@ public class MQTTConsumerToKafkaProducer implements EventHandler {
         props.put("bootstrap.servers", kafkaHost);
         props.put("acks", "all");
         props.put("retries", 0);
-        props.put("batch.size", 16384);
         props.put("linger.ms", 1);
+        props.put(ProducerConfig.CLIENT_ID_CONFIG, "producer-test");
         props.put("buffer.memory", 33554432);
         props.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
         props.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
@@ -56,12 +56,12 @@ public class MQTTConsumerToKafkaProducer implements EventHandler {
 
     @EventSubscribe
     public void receive(MQTTMessage message) {
-        LOG.info("Received a MQTT message: {}", message);
+        LOG.debug("Received a MQTT message: {}", message);
         ParsedPath parsedPath = MQTTPathParser.parsePath(message.getTopic());
         try {
-            MessageValue parsedMessage = OBJECT_MAPPER.readValue(message.getMessage(), MessageValue.class);
+            ValueTransportMessage parsedMessage = OBJECT_MAPPER.readValue(message.getMessage(), ValueTransportMessage.class);
             if(validateMessage(parsedPath, parsedMessage)) {
-                LOG.info("Message is valid, forwarding to Kafka: {}", message.getMessage());
+                LOG.debug("Message is valid, forwarding to Kafka: {}", message.getMessage());
                 kafkaProducer.send(new ProducerRecord<>("states", message.getMessage()));
             }
         } catch (IOException e) {
@@ -70,7 +70,7 @@ public class MQTTConsumerToKafkaProducer implements EventHandler {
 
     }
 
-    private boolean validateMessage(ParsedPath path, MessageValue value) {
+    private boolean validateMessage(ParsedPath path, ValueTransportMessage value) {
         //TODO: Implement proper validation to prevent illegal messages etc.
         return true;
     }

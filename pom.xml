@@ -131,6 +131,7 @@
         <module>eventbus-kafka</module>
         <module>eventbus-mqtt</module>
         <module>moquette-spring</module>
+        <module>state-svc</module>
     </modules>
 
     <build>

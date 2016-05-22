@@ -3,6 +3,7 @@ package com.oberasoftware.home.core.mqtt;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.oberasoftware.home.api.exceptions.RuntimeHomeAutomationException;
+import com.oberasoftware.home.api.model.ValueTransportMessage;
 import com.oberasoftware.home.api.types.Value;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -52,7 +53,7 @@ public class MQTTMessageBuilder {
     public MQTTMessage build() {
         String topic = String.format(TOPIC_FORMAT, MessageGroup.STATES.name().toLowerCase(), controllerId,
                 channel, label);
-        MessageValue message = new MessageValue(value, controllerId, channel, label);
+        ValueTransportMessage message = new ValueTransportMessage(value, controllerId, channel, label);
         try {
             return new MQTTMessageImpl(topic, OBJECT_MAPPER.writeValueAsString(message));
         } catch (JsonProcessingException e) {

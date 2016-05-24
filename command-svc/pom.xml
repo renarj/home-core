@@ -16,5 +16,9 @@
             <groupId>com.oberasoftware</groupId>
             <artifactId>kafka-connector</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.oberasoftware</groupId>
+            <artifactId>home-util</artifactId>
+        </dependency>
     </dependencies>
 </project>

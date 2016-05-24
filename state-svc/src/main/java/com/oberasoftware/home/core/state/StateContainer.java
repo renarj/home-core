@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.oberasoftware.base.BaseConfiguration;
 import com.oberasoftware.home.api.managers.StateManager;
 import com.oberasoftware.home.api.model.ValueTransportMessage;
+import com.oberasoftware.home.kafka.KafkaConfiguration;
 import com.oberasoftware.home.kafka.KafkaTopicListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,7 +19,7 @@ import java.io.IOException;
  * @author Renze de Vries
  */
 @SpringBootApplication
-@Import({StateConfiguration.class, BaseConfiguration.class})
+@Import({StateConfiguration.class, BaseConfiguration.class, KafkaConfiguration.class})
 public class StateContainer {
     private static final Logger LOG = LoggerFactory.getLogger(StateContainer.class);
 

@@ -30,9 +30,5 @@
             <groupId>com.oberasoftware</groupId>
             <artifactId>home-api</artifactId>
         </dependency>
-        <dependency>
-            <groupId>com.oberasoftware</groupId>
-            <artifactId>eventbus-mqtt</artifactId>
-        </dependency>
     </dependencies>
 </project>

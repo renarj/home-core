@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import java.util.Collections;
 import java.util.List;
@@ -34,8 +35,11 @@ public class KafkaTopicListener implements TopicListener<String> {
         OBJECT_MAPPER.enableDefaultTyping();
     }
 
-    @Value("${kafka.consumer.host}")
+    @Value("${kafka.consumer.host:}")
     private String kafkaHost;
+
+    @Value("${kafka.consumer.topic:}")
+    private String kafkaTopic;
 
     private List<TopicConsumer<String>> topicConsumers = new CopyOnWriteArrayList<>();
 
@@ -47,21 +51,25 @@ public class KafkaTopicListener implements TopicListener<String> {
 
     @Override
     public void connect() {
-        LOG.info("Connecting to Kafka host: {}", kafkaHost);
-        Properties props = new Properties();
-        props.put("bootstrap.servers", kafkaHost);
-        props.put("group.id", "test");
-        props.put("enable.auto.commit", "true");
-        props.put("auto.commit.interval.ms", "1000");
-        props.put("session.timeout.ms", "30000");
-        props.put("key.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
-        props.put("value.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
-        kafkaConsumer = new org.apache.kafka.clients.consumer.KafkaConsumer<>(props);
-        kafkaConsumer.subscribe(Collections.singletonList("states"));
+        if(!StringUtils.isEmpty(kafkaHost)) {
+            LOG.info("Connecting to Kafka host: {}", kafkaHost);
+            Properties props = new Properties();
+            props.put("bootstrap.servers", kafkaHost);
+            props.put("group.id", "test");
+            props.put("enable.auto.commit", "true");
+            props.put("auto.commit.interval.ms", "1000");
+            props.put("session.timeout.ms", "30000");
+            props.put("key.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
+            props.put("value.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
+            kafkaConsumer = new org.apache.kafka.clients.consumer.KafkaConsumer<>(props);
+            kafkaConsumer.subscribe(Collections.singletonList(kafkaTopic));
 
-        running = true;
-        executorService.submit((Runnable) this::runPoller);
-        LOG.info("Finished connect to Kafka");
+            running = true;
+            executorService.submit((Runnable) this::runPoller);
+            LOG.info("Finished connect to Kafka");
+        } else {
+            LOG.warn("No kafka host configured, cannot connect");
+        }
     }
 
     @Override

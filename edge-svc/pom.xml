@@ -16,5 +16,9 @@
             <groupId>com.oberasoftware</groupId>
             <artifactId>kafka-connector</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.oberasoftware</groupId>
+            <artifactId>eventbus-mqtt</artifactId>
+        </dependency>
     </dependencies>
 </project>

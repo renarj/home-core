@@ -5,7 +5,7 @@ import com.oberasoftware.base.event.Event;
 import com.oberasoftware.base.event.EventFilter;
 import com.oberasoftware.base.event.EventHandler;
 import com.oberasoftware.base.event.impl.LocalEventBus;
-import com.oberasoftware.home.api.converters.ConvertManager;
+import com.oberasoftware.home.api.converters.ConverterManager;
 import com.oberasoftware.home.api.exceptions.ConversionException;
 import com.oberasoftware.home.api.exceptions.HomeAutomationException;
 import com.oberasoftware.home.api.exceptions.RuntimeHomeAutomationException;
@@ -35,7 +35,7 @@ public class MQTTTopicEventBus implements DistributedTopicEventBus {
     private String mqttPassword;
 
     @Autowired
-    private ConvertManager convertManager;
+    private ConverterManager convertManager;
 
     private MQTTBroker broker;
 
@@ -52,7 +52,7 @@ public class MQTTTopicEventBus implements DistributedTopicEventBus {
     public void subscribe(String topic) {
         LOG.info("Subscribing to topic: {}", topic);
         broker.subscribeTopic(topic, (receivedTopic, payload) -> {
-            LOG.info("Received a message on topic: {} with payload: {}", receivedTopic, payload);
+            LOG.debug("Received a message on topic: {} with payload: {}", receivedTopic, payload);
 
             localEventBus.publish(new MQTTMessageImpl(receivedTopic, payload));
         });
@@ -85,10 +85,10 @@ public class MQTTTopicEventBus implements DistributedTopicEventBus {
 
     @Override
     public void publish(Event event, Object... objects) {
-        LOG.info("Incoming event: {}", event);
+        LOG.debug("Incoming event: {}", event);
         MQTTMessage message = convertManager.convert(event, MQTTMessage.class);
         if(message != null) {
-            LOG.info("Converted to MQTT message: {}", message);
+            LOG.debug("Converted to MQTT message: {}", message);
             broker.publish(message);
         } else {
             throw new ConversionException("Unable to convert event: " + event);

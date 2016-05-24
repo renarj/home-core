@@ -10,7 +10,7 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>eventbus-kafka</artifactId>
+    <artifactId>kafka-connector</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
@@ -21,11 +21,6 @@
         <dependency>
             <groupId>org.apache.kafka</groupId>
             <artifactId>kafka-clients</artifactId>
-            <version>0.9.0.0</version>
-        </dependency>
-        <dependency>
-            <groupId>com.oberasoftware</groupId>
-            <artifactId>home-api</artifactId>
         </dependency>
         <dependency>
             <groupId>com.oberasoftware</groupId>
@@ -33,8 +28,11 @@
         </dependency>
         <dependency>
             <groupId>com.oberasoftware</groupId>
+            <artifactId>home-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.oberasoftware</groupId>
             <artifactId>eventbus-mqtt</artifactId>
-            <version>${project.version}</version>
         </dependency>
     </dependencies>
 </project>

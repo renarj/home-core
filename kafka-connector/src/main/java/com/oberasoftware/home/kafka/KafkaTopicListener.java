@@ -1,19 +1,18 @@
-package com.oberasoftware.home.core.state;
+package com.oberasoftware.home.kafka;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.oberasoftware.home.api.managers.StateManager;
-import com.oberasoftware.home.api.model.ValueTransportMessage;
+import com.oberasoftware.home.api.messaging.TopicConsumer;
+import com.oberasoftware.home.api.messaging.TopicListener;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
-import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
 import java.util.Collections;
+import java.util.List;
 import java.util.Properties;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -25,8 +24,8 @@ import static java.util.concurrent.TimeUnit.MILLISECONDS;
  * @author Renze de Vries
  */
 @Component
-public class KafkaStateConsumer implements StateConsumer {
-    private static final Logger LOG = LoggerFactory.getLogger(KafkaStateConsumer.class);
+public class KafkaTopicListener implements TopicListener<String> {
+    private static final Logger LOG = LoggerFactory.getLogger(KafkaTopicListener.class);
     private static final int KAFKA_READ_TIMEOUT = 100;
     private static final int POLLER_SLEEP_INTERVAL = 1000;
 
@@ -38,14 +37,13 @@ public class KafkaStateConsumer implements StateConsumer {
     @Value("${kafka.consumer.host}")
     private String kafkaHost;
 
-    @Autowired
-    private StateManager stateManager;
+    private List<TopicConsumer<String>> topicConsumers = new CopyOnWriteArrayList<>();
 
     private volatile boolean running;
 
     private ExecutorService executorService = Executors.newSingleThreadExecutor();
 
-    private KafkaConsumer<String, String> kafkaConsumer;
+    private org.apache.kafka.clients.consumer.KafkaConsumer<String, String> kafkaConsumer;
 
     @Override
     public void connect() {
@@ -58,7 +56,7 @@ public class KafkaStateConsumer implements StateConsumer {
         props.put("session.timeout.ms", "30000");
         props.put("key.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
         props.put("value.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
-        kafkaConsumer = new KafkaConsumer<>(props);
+        kafkaConsumer = new org.apache.kafka.clients.consumer.KafkaConsumer<>(props);
         kafkaConsumer.subscribe(Collections.singletonList("states"));
 
         running = true;
@@ -73,10 +71,16 @@ public class KafkaStateConsumer implements StateConsumer {
         try {
             executorService.awaitTermination(60, TimeUnit.SECONDS);
         } catch (InterruptedException e) {
-            LOG.error("Consumer thread not shutdown cleanly: {}", e.getMessage());
+            LOG.error("TopicListener thread not shutdown cleanly: {}", e.getMessage());
         }
         LOG.info("Closing consumer");
         kafkaConsumer.close();
+    }
+
+    @Override
+    public void register(TopicConsumer<String> topicConsumer) {
+        LOG.info("Registering topicConsumer: {}", topicConsumer);
+        topicConsumers.add(topicConsumer);
     }
 
     private void runPoller() {
@@ -84,23 +88,19 @@ public class KafkaStateConsumer implements StateConsumer {
         while(running && !Thread.currentThread().isInterrupted()) {
             ConsumerRecords<String, String> r = kafkaConsumer.poll(KAFKA_READ_TIMEOUT);
             if(!r.isEmpty()) {
-                r.forEach(cr -> {
-                    try {
-                        ValueTransportMessage message = OBJECT_MAPPER.readValue(cr.value(), ValueTransportMessage.class);
-                        LOG.debug("Received value: {}", message);
-                        stateManager.setState(message.getControllerId(),
-                                message.getChannelId(), message.getLabel(), message.getValue());
-                    } catch (IOException e) {
-                        LOG.error("Could not read message", e);
-                    } catch(Exception ex) {
-                        LOG.error("Something happened", ex);
-                    }
-                });
+                r.forEach(cr -> notifyListeners(cr.value()));
             } else {
                 sleepUninterruptibly(POLLER_SLEEP_INTERVAL, MILLISECONDS);
             }
         }
         LOG.info("Poller has stopped");
+    }
+
+    private void notifyListeners(String message) {
+        topicConsumers.forEach(c -> {
+            LOG.debug("Notifying consumer: {} with message: {}", c, message);
+            c.receive(message);
+        });
     }
 
 }

@@ -1,6 +1,5 @@
 package com.oberasoftware.home.core.edge;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.oberasoftware.home.api.commands.BasicCommand;
 import com.oberasoftware.home.api.model.BasicCommandImpl;
 import com.oberasoftware.home.core.mqtt.MQTTConfiguration;
@@ -16,7 +15,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Import;
 
-import java.io.IOException;
+import static com.oberasoftware.home.util.ConverterHelper.mapFromJson;
 
 /**
  * @author Renze de Vries
@@ -26,11 +25,6 @@ import java.io.IOException;
 @Import({MQTTConfiguration.class, KafkaConfiguration.class})
 public class EdgeProcessorContainer {
     private static final Logger LOG = LoggerFactory.getLogger(EdgeProcessorContainer.class);
-
-    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
-    static {
-        OBJECT_MAPPER.enableDefaultTyping();
-    }
 
     public static void main(String[] args) {
         LOG.info("Starting edge processor");
@@ -44,13 +38,9 @@ public class EdgeProcessorContainer {
         LOG.info("Connecting to command channel");
         topicEventBus.connect();
         topicListener.register(message -> {
-            try {
-                BasicCommand basicCommand = OBJECT_MAPPER.readValue(message, BasicCommandImpl.class);
-                LOG.info("Received basic command: {}", basicCommand);
-                topicEventBus.publish(basicCommand);
-            } catch (IOException e) {
-                LOG.error("", e);
-            }
+            BasicCommand basicCommand = mapFromJson(message, BasicCommandImpl.class);
+            LOG.info("Received basic command: {}", basicCommand);
+            topicEventBus.publish(basicCommand);
         });
         topicListener.connect();
 

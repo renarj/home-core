@@ -22,7 +22,7 @@
         </dependency>
         <dependency>
             <groupId>com.oberasoftware</groupId>
-            <artifactId>home-api</artifactId>
+            <artifactId>home-util</artifactId>
         </dependency>
         <dependency>
             <groupId>com.datastax.cassandra</groupId>

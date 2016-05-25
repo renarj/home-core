@@ -1,6 +1,5 @@
 package com.oberasoftware.home.kafka;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.oberasoftware.home.api.messaging.TopicConsumer;
 import com.oberasoftware.home.api.messaging.TopicListener;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
@@ -29,11 +28,6 @@ public class KafkaTopicListener implements TopicListener<String> {
     private static final Logger LOG = LoggerFactory.getLogger(KafkaTopicListener.class);
     private static final int KAFKA_READ_TIMEOUT = 100;
     private static final int POLLER_SLEEP_INTERVAL = 1000;
-
-    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
-    static {
-        OBJECT_MAPPER.enableDefaultTyping();
-    }
 
     @Value("${kafka.consumer.host:}")
     private String kafkaHost;

@@ -1,6 +1,5 @@
 package com.oberasoftware.home.core.edge;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.oberasoftware.base.event.EventHandler;
 import com.oberasoftware.base.event.EventSubscribe;
 import com.oberasoftware.home.api.model.ValueTransportMessage;
@@ -13,7 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
+import static com.oberasoftware.home.util.ConverterHelper.mapFromJson;
 
 /**
  * @author Renze de Vries
@@ -22,11 +21,6 @@ import java.io.IOException;
 public class MQTTMessageListener implements EventHandler {
     private static final Logger LOG = LoggerFactory.getLogger(MQTTMessageListener.class);
 
-    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
-    static {
-        OBJECT_MAPPER.enableDefaultTyping();
-    }
-
     @Autowired
     private KafkaTopicSender topicSender;
 
@@ -34,17 +28,13 @@ public class MQTTMessageListener implements EventHandler {
     public void receive(MQTTMessage message) {
         LOG.debug("Received a MQTT message: {}", message);
         ParsedPath parsedPath = MQTTPathParser.parsePath(message.getTopic());
-        try {
-            ValueTransportMessage parsedMessage = OBJECT_MAPPER.readValue(message.getMessage(), ValueTransportMessage.class);
-            if(validateMessage(parsedPath, parsedMessage)) {
-                LOG.debug("Message is valid, forwarding to Kafka: {}", message.getMessage());
 
-                topicSender.publish(message.getMessage());
-            }
-        } catch (IOException e) {
-            LOG.error("", e);
+        ValueTransportMessage parsedMessage = mapFromJson(message.getMessage(), ValueTransportMessage.class);
+        if(validateMessage(parsedPath, parsedMessage)) {
+            LOG.debug("Message is valid, forwarding to Kafka: {}", message.getMessage());
+
+            topicSender.publish(message.getMessage());
         }
-
     }
 
     private boolean validateMessage(ParsedPath path, ValueTransportMessage value) {

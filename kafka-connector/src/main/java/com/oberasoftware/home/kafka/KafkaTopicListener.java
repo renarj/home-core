@@ -46,7 +46,7 @@ public class KafkaTopicListener implements TopicListener<String> {
     @Override
     public void connect() {
         if(!StringUtils.isEmpty(kafkaHost)) {
-            LOG.info("Connecting to Kafka host: {}", kafkaHost);
+            LOG.info("Connecting to Kafka host: {} and topic: {}", kafkaHost, kafkaTopic);
             Properties props = new Properties();
             props.put("bootstrap.servers", kafkaHost);
             props.put("group.id", "test");
@@ -100,7 +100,7 @@ public class KafkaTopicListener implements TopicListener<String> {
 
     private void notifyListeners(String message) {
         topicConsumers.forEach(c -> {
-            LOG.debug("Notifying consumer: {} with message: {}", c, message);
+            LOG.info("Notifying consumer: {} with message: {}", c, message);
             c.receive(message);
         });
     }

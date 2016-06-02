@@ -1,9 +1,7 @@
 package com.oberasoftware.home.kafka;
 
 import com.oberasoftware.home.api.messaging.TopicSender;
-import org.apache.kafka.clients.producer.KafkaProducer;
-import org.apache.kafka.clients.producer.ProducerConfig;
-import org.apache.kafka.clients.producer.ProducerRecord;
+import org.apache.kafka.clients.producer.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,6 +9,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import java.util.Properties;
+import java.util.UUID;
 
 /**
  * @author Renze de Vries
@@ -37,7 +36,7 @@ public class KafkaTopicSender implements TopicSender<String> {
             props.put("acks", "all");
             props.put("retries", 0);
             props.put("linger.ms", 1);
-            props.put(ProducerConfig.CLIENT_ID_CONFIG, "producer");
+            props.put(ProducerConfig.CLIENT_ID_CONFIG, UUID.randomUUID().toString());
             props.put("buffer.memory", 33554432);
             props.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
             props.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
@@ -56,6 +55,15 @@ public class KafkaTopicSender implements TopicSender<String> {
     @Override
     public void publish(String message) {
         LOG.debug("Publishing: {} to topic: {}", message, kafkaTopic);
-        kafkaProducer.send(new ProducerRecord<>(kafkaTopic, message));
+
+        kafkaProducer.send(new ProducerRecord<String, String>(kafkaTopic, message), new Callback() {
+            @Override
+            public void onCompletion(RecordMetadata metadata, Exception exception) {
+                LOG.info("Send has been completed");
+            }
+        });
+//        Future<RecordMetadata> r = kafkaProducer.send(new ProducerRecord<>(kafkaTopic, message));
+//        kafkaProducer.flush();
+
     }
 }

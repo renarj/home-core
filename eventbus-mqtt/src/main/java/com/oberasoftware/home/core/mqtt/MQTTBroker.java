@@ -43,7 +43,7 @@ public class MQTTBroker {
             client.setCallback(new MqttCallback() {
                 @Override
                 public void connectionLost(Throwable throwable) {
-                    LOG.warn("Connect lost to host: {}", host);
+                    LOG.warn("Connection lost to host: {}", host);
                 }
 
                 @Override
@@ -57,18 +57,17 @@ public class MQTTBroker {
                     LOG.debug("delivery complete");
                 }
             });
+            MqttConnectOptions options = new MqttConnectOptions();
+            options.setKeepAliveInterval(20);
 
             if(!StringUtils.isEmpty(username) && !StringUtils.isEmpty(password)) {
                 LOG.info("Authentication details specified, using for connection");
-                MqttConnectOptions options = new MqttConnectOptions();
                 options.setUserName(username);
                 options.setPassword(password.toCharArray());
-                client.connect(options);
             } else {
                 LOG.info("No authentication details, using anonymous connection");
-                client.connect();
             }
-
+            client.connect(options);
             connected.set(true);
         } catch (MqttException e) {
             throw new HomeAutomationException("Could not connect to MQTT broker: " + host);

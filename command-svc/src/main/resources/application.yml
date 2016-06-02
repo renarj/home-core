@@ -1,0 +1,12 @@
+kafka.producer.topic: commands
+kafka.producer.host: 127.0.0.1:9092
+server.port: 9004
+---
+spring:
+    profiles: production
+kafka:
+  producer:
+    topic: commands
+    host: ${kafka_host}
+server:
+  port: 8080

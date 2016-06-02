@@ -8,12 +8,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Import;
 
 /**
  * @author Renze de Vries
  */
 @SpringBootApplication
+@ComponentScan
 @Import({KafkaConfiguration.class, BaseConfiguration.class})
 public class CommandContainer {
     private static final Logger LOG = LoggerFactory.getLogger(CommandContainer.class);

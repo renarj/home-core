@@ -59,7 +59,7 @@ public class CassandraStateDAO implements StateDAO {
         LOG.info("Connecting to cassandra cluster on: {}:{}", cassandraHost, cassandraPort);
         cluster = Cluster.builder()
                 .addContactPoint(cassandraHost)
-                .withPort(cassandraPort)
+//                .withPort(cassandraPort)
                 .build();
         session = cluster.connect();
 

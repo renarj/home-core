@@ -1,4 +1,4 @@
-package com.oberasoftware.home.core.edge;
+package com.oberasoftware.home.core.mqtt.converters;
 
 import com.oberasoftware.home.api.commands.BasicCommand;
 import com.oberasoftware.home.api.converters.Converter;

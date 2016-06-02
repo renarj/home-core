@@ -31,7 +31,7 @@ public class MQTTMessageListener implements EventHandler {
 
         ValueTransportMessage parsedMessage = mapFromJson(message.getMessage(), ValueTransportMessage.class);
         if(validateMessage(parsedPath, parsedMessage)) {
-            LOG.debug("Message is valid, forwarding to Kafka: {}", message.getMessage());
+            LOG.info("Message is valid, forwarding to Kafka: {}", message.getMessage());
 
             topicSender.publish(message.getMessage());
         }

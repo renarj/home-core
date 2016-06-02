@@ -1,0 +1,18 @@
+kafka.consumer.host: localhost:9092
+kafka.consumer.topic: states
+cassandra.host: localhost
+cassandra.port: 9160
+spring.main.web-environment: true
+server.port: 9003
+---
+spring:
+    profiles: production
+jasdb:
+    mode: rest
+    host: ${dbhost}
+    port: ${dbport}
+    kafka.consumer.host: ${kafka.host}
+    kafka.consumer.topic: states
+    cassandra.host: ${cassandra.host}
+    cassandra.port: 32769
+    spring.main.web-environment: true

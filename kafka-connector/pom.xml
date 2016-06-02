@@ -30,5 +30,10 @@
             <groupId>com.oberasoftware</groupId>
             <artifactId>home-api</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.rabbitmq</groupId>
+            <artifactId>amqp-client</artifactId>
+            <version>3.6.2</version>
+        </dependency>
     </dependencies>
 </project>

@@ -154,7 +154,6 @@
     <modules>
         <module>kafka-connector</module>
         <module>eventbus-mqtt</module>
-        <module>moquette-spring</module>
         <module>state-svc</module>
         <module>command-svc</module>
         <module>edge-svc</module>

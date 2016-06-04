@@ -18,7 +18,7 @@
         </dependency>
         <dependency>
             <groupId>com.oberasoftware</groupId>
-            <artifactId>eventbus-mqtt</artifactId>
+            <artifactId>home-mqtt</artifactId>
         </dependency>
     </dependencies>
 

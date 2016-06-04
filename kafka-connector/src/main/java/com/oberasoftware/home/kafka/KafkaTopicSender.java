@@ -62,8 +62,5 @@ public class KafkaTopicSender implements TopicSender<String> {
                 LOG.info("Send has been completed");
             }
         });
-//        Future<RecordMetadata> r = kafkaProducer.send(new ProducerRecord<>(kafkaTopic, message));
-//        kafkaProducer.flush();
-
     }
 }

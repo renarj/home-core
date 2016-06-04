@@ -93,8 +93,8 @@
         <dependencies>
             <dependency>
                 <groupId>com.oberasoftware</groupId>
-                <artifactId>eventbus-mqtt</artifactId>
-                <version>${project.version}</version>
+                <artifactId>home-mqtt</artifactId>
+                <version>${home.sdk.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.oberasoftware</groupId>
@@ -134,7 +134,7 @@
             <dependency>
                 <groupId>org.apache.kafka</groupId>
                 <artifactId>kafka-clients</artifactId>
-                <version>0.9.0.0</version>
+                <version>0.10.0.0</version>
             </dependency>
             <dependency>
                 <groupId>com.datastax.cassandra</groupId>
@@ -153,7 +153,6 @@
 
     <modules>
         <module>kafka-connector</module>
-        <module>eventbus-mqtt</module>
         <module>state-svc</module>
         <module>command-svc</module>
         <module>edge-svc</module>
@@ -165,7 +164,7 @@
                 <plugin>
                     <groupId>com.spotify</groupId>
                     <artifactId>docker-maven-plugin</artifactId>
-                    <version>0.4.9</version>
+                    <version>0.4.10</version>
                     <configuration>
                         <imageName>${docker.image.prefix}/${project.artifactId}</imageName>
                         <dockerDirectory>src/main/docker</dockerDirectory>

@@ -1,10 +1,10 @@
 package com.oberasoftware.home.core.state;
 
 import com.oberasoftware.base.BaseConfiguration;
+import com.oberasoftware.home.activemq.ActiveMQConfiguration;
+import com.oberasoftware.home.activemq.ActiveMQTopicListener;
 import com.oberasoftware.home.api.managers.StateManager;
 import com.oberasoftware.home.api.model.ValueTransportMessage;
-import com.oberasoftware.home.kafka.KafkaConfiguration;
-import com.oberasoftware.home.kafka.KafkaTopicListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
@@ -18,14 +18,14 @@ import static com.oberasoftware.home.util.ConverterHelper.mapFromJson;
  * @author Renze de Vries
  */
 @SpringBootApplication
-@Import({StateConfiguration.class, BaseConfiguration.class, KafkaConfiguration.class})
+@Import({StateConfiguration.class, BaseConfiguration.class, ActiveMQConfiguration.class})
 public class StateContainer {
     private static final Logger LOG = LoggerFactory.getLogger(StateContainer.class);
 
     public static void main(String[] args) {
         LOG.info("Starting state service");
         ApplicationContext context = SpringApplication.run(StateContainer.class);
-        KafkaTopicListener topicListener = context.getBean(KafkaTopicListener.class);
+        ActiveMQTopicListener topicListener = context.getBean(ActiveMQTopicListener.class);
         topicListener.connect();
         StateManager stateManager = context.getBean(StateManager.class);
 

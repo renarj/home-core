@@ -33,9 +33,6 @@ public class CassandraStateDAO implements StateDAO {
     @org.springframework.beans.factory.annotation.Value("${cassandra.host}")
     private String cassandraHost;
 
-    @org.springframework.beans.factory.annotation.Value("${cassandra.port}")
-    private int cassandraPort;
-
     @org.springframework.beans.factory.annotation.Value("${cassandra.keyspace:haas}")
     private String keySpace;
 
@@ -56,10 +53,9 @@ public class CassandraStateDAO implements StateDAO {
 
     @PostConstruct
     public void connect() {
-        LOG.info("Connecting to cassandra cluster on: {}:{}", cassandraHost, cassandraPort);
+        LOG.info("Connecting to cassandra cluster on: {}:{}", cassandraHost);
         cluster = Cluster.builder()
                 .addContactPoint(cassandraHost)
-//                .withPort(cassandraPort)
                 .build();
         session = cluster.connect();
 

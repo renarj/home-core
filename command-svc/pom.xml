@@ -14,7 +14,7 @@
     <dependencies>
         <dependency>
             <groupId>com.oberasoftware</groupId>
-            <artifactId>kafka-connector</artifactId>
+            <artifactId>activemq-connector</artifactId>
         </dependency>
         <dependency>
             <groupId>com.oberasoftware</groupId>

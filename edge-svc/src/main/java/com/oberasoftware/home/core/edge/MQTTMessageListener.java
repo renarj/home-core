@@ -2,11 +2,11 @@ package com.oberasoftware.home.core.edge;
 
 import com.oberasoftware.base.event.EventHandler;
 import com.oberasoftware.base.event.EventSubscribe;
+import com.oberasoftware.home.activemq.ActiveMQTopicSender;
 import com.oberasoftware.home.api.model.ValueTransportMessage;
 import com.oberasoftware.home.core.mqtt.MQTTMessage;
 import com.oberasoftware.home.core.mqtt.MQTTPathParser;
 import com.oberasoftware.home.core.mqtt.ParsedPath;
-import com.oberasoftware.home.kafka.KafkaTopicSender;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +22,7 @@ public class MQTTMessageListener implements EventHandler {
     private static final Logger LOG = LoggerFactory.getLogger(MQTTMessageListener.class);
 
     @Autowired
-    private KafkaTopicSender topicSender;
+    private ActiveMQTopicSender topicSender;
 
     @EventSubscribe
     public void receive(MQTTMessage message) {

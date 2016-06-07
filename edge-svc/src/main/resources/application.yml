@@ -1,19 +1,17 @@
-kafka.producer.topic: states
-kafka.producer.host: 127.0.0.1:9092
-kafka.consumer.topic: commands
-kafka.consumer.host: 127.0.0.1:9092
-mqtt.host: tcp://localhost:1883
+amq.producer.topic: states
+amq.host: tcp://localhost:61616
+amq.consumer.topic: commands
+mqtt.host: tcp://mqtt.robot.renarj.nl:1883
 server.port: 9002
 ---
 spring:
     profiles: production
-kafka:
+amq:
+  host: ${amq_host}
   producer:
     topic: states
-    host: ${kafka_host}
   consumer:
     topic: commands
-    host: ${kafka_host}
 mqtt:
   host: ${mqtt_host}
 server:

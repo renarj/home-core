@@ -1,12 +1,12 @@
 package com.oberasoftware.home.core.edge;
 
+import com.oberasoftware.home.activemq.ActiveMQConfiguration;
+import com.oberasoftware.home.activemq.ActiveMQTopicListener;
+import com.oberasoftware.home.activemq.ActiveMQTopicSender;
 import com.oberasoftware.home.api.commands.BasicCommand;
 import com.oberasoftware.home.api.model.BasicCommandImpl;
 import com.oberasoftware.home.core.mqtt.MQTTConfiguration;
 import com.oberasoftware.home.core.mqtt.MQTTTopicEventBus;
-import com.oberasoftware.home.kafka.KafkaConfiguration;
-import com.oberasoftware.home.kafka.KafkaTopicListener;
-import com.oberasoftware.home.kafka.KafkaTopicSender;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
@@ -22,7 +22,7 @@ import static com.oberasoftware.home.util.ConverterHelper.mapFromJson;
  */
 @SpringBootApplication
 @ComponentScan
-@Import({MQTTConfiguration.class, KafkaConfiguration.class})
+@Import({MQTTConfiguration.class, ActiveMQConfiguration.class})
 public class EdgeProcessorContainer {
     private static final Logger LOG = LoggerFactory.getLogger(EdgeProcessorContainer.class);
 
@@ -32,8 +32,8 @@ public class EdgeProcessorContainer {
         ApplicationContext context = SpringApplication.run(EdgeProcessorContainer.class);
         MQTTTopicEventBus topicEventBus = context.getBean(MQTTTopicEventBus.class);
         MQTTMessageListener messageListener = context.getBean(MQTTMessageListener.class);
-        KafkaTopicSender topicSender = context.getBean(KafkaTopicSender.class);
-        KafkaTopicListener topicListener = context.getBean(KafkaTopicListener.class);
+        ActiveMQTopicSender topicSender = context.getBean(ActiveMQTopicSender.class);
+        ActiveMQTopicListener topicListener = context.getBean(ActiveMQTopicListener.class);
 
         LOG.info("Connecting to command channel");
         topicEventBus.connect();

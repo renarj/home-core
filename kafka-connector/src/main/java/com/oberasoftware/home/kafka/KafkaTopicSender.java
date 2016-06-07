@@ -33,7 +33,6 @@ public class KafkaTopicSender implements TopicSender<String> {
             LOG.info("Starting connecting to kafka: {} for topic: {}", kafkaHost, kafkaTopic);
             Properties props = new Properties();
             props.put("bootstrap.servers", kafkaHost);
-            props.put("acks", "all");
             props.put("retries", 0);
             props.put("linger.ms", 1);
             props.put(ProducerConfig.CLIENT_ID_CONFIG, UUID.randomUUID().toString());

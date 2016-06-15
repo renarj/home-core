@@ -11,10 +11,10 @@ node {
     stage 'command-svc-docker'
     sh "${mvnHome}/bin/mvn -f command-svc/pom.xml -B clean package docker:build"
 
-    stage 'edge-svc'
+    stage 'edge-svc-docker'
     sh "${mvnHome}/bin/mvn -f edge-svc/pom.xml -B clean package docker:build"
 
-    stage 'state-svc'
+    stage 'state-svc-docker'
     sh "${mvnHome}/bin/mvn -f state-svc/pom.xml -B clean package docker:build"
 
     stage 'archive'

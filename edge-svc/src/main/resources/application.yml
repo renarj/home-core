@@ -14,5 +14,6 @@ amq:
     topic: commands
 mqtt:
   host: ${mqtt_host}
+  port: ${mqtt_port}
 server:
   port: 8080

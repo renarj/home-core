@@ -17,6 +17,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 import static com.google.common.util.concurrent.Uninterruptibles.sleepUninterruptibly;
+import static com.oberasoftware.home.activemq.ActiveMQTopicSender.CONNECTION_FORMAT;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
 /**
@@ -47,10 +48,11 @@ public class ActiveMQTopicListener implements TopicListener<String>, ExceptionLi
 
     @Override
     public void connect() {
-        LOG.info("Connecting to ActiveMQ Host: {} on topic: {}", amqHost, amqTopic);
-        ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory(amqHost);
+        String connectionString = String.format(CONNECTION_FORMAT, amqHost);
+        LOG.info("Connecting to ActiveMQ Host: {} on topic: {}", connectionString, amqTopic);
+        ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory(connectionString);
 
-        if(!StringUtils.isEmpty(amqHost)) {
+        if(!StringUtils.isEmpty(connectionString)) {
             try {
                 connection = connectionFactory.createConnection();
                 connection.start();

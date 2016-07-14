@@ -17,6 +17,8 @@ import javax.jms.*;
 public class ActiveMQTopicSender implements TopicSender<String> {
     private static final Logger LOG = LoggerFactory.getLogger(ActiveMQTopicSender.class);
 
+    public static final String CONNECTION_FORMAT = "tcp://%s:61616";
+
     @Value("${amq.host:}")
     private String amqHost;
 
@@ -31,8 +33,9 @@ public class ActiveMQTopicSender implements TopicSender<String> {
     @Override
     public void connect() {
         if(!StringUtils.isEmpty(amqHost)) {
-            LOG.info("Connecting to ActiveMQ Host: {} on topic: {}", amqHost, amqTopic);
-            ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory(amqHost);
+            String connectionString = String.format(CONNECTION_FORMAT, amqHost);
+            LOG.info("Connecting to ActiveMQ Host: {} on topic: {}", connectionString, amqTopic);
+            ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory(connectionString);
 
             try {
                 connection = connectionFactory.createConnection();

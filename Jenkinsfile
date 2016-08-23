@@ -1,5 +1,5 @@
 node {
-    git url: 'git@github.com:renarj/robo-sdk.git'
+    git url: 'git@bitbucket.org:oberasoftware/home-core.git'
     def mvnHome = tool 'M3'
 
     stage 'checkout'

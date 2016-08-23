@@ -21,6 +21,8 @@ import static com.oberasoftware.home.activemq.ActiveMQTopicSender.CONNECTION_FOR
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
 /**
+ * This is the Active MQ Topic listener.
+ *
  * @author Renze de Vries
  */
 @Component

@@ -1,5 +1,5 @@
 node {
-    git url: 'git@bitbucket.org:renarj/home-core.git'
+    git url: 'git@github.com:renarj/home-core.git'
     def mvnHome = tool 'M3'
 
     stage 'checkout'

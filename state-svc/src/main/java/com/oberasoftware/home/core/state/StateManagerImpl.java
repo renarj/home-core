@@ -24,7 +24,7 @@ public class StateManagerImpl implements StateManager {
     @Override
     public State setState(String controllerId, String itemId, String label, Value value) {
         State state = stateDAO.setState(controllerId, itemId, label, value);
-        eventBus.publish(new StateUpdateEvent(state));
+        eventBus.publish(new StateUpdateEvent(state, label));
         return state;
     }
 

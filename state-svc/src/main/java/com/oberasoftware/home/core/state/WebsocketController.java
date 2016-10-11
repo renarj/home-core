@@ -3,6 +3,8 @@ package com.oberasoftware.home.core.state;
 import com.oberasoftware.base.event.EventHandler;
 import com.oberasoftware.base.event.EventSubscribe;
 import com.oberasoftware.home.api.impl.events.devices.StateUpdateEvent;
+import com.oberasoftware.home.api.model.ValueTransportMessage;
+import com.oberasoftware.home.api.types.Value;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -23,6 +25,11 @@ public class WebsocketController implements EventHandler {
     @EventSubscribe
     public void receiveStateUpdate(StateUpdateEvent stateUpdateEvent) {
         LOG.debug("Received state: {}", stateUpdateEvent);
-        messagingTemplate.convertAndSend("/topic/state", stateUpdateEvent.getState());
+
+        String label = stateUpdateEvent.getLabel();
+        Value value = stateUpdateEvent.getState().getStateItem(label).getValue();
+
+        messagingTemplate.convertAndSend("/topic/state", new ValueTransportMessage(value,
+                stateUpdateEvent.getControllerId(), stateUpdateEvent.getItemId(), label));
     }
 }

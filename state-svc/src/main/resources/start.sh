@@ -9,7 +9,6 @@ echo "AMQ is up and running"
 
 echo "Waiting for $cassandra_host to be up and running"
 while true; do
-    echo "Waiting Cassandra"
     nc -q 1 -w 5 $cassandra_host 9042 2>/dev/null && break
 done
 

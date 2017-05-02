@@ -4,7 +4,7 @@ import com.oberasoftware.base.BaseConfiguration;
 import com.oberasoftware.home.activemq.ActiveMQConfiguration;
 import com.oberasoftware.home.activemq.ActiveMQTopicListener;
 import com.oberasoftware.home.api.managers.StateManager;
-import com.oberasoftware.home.api.model.ValueTransportMessage;
+import com.oberasoftware.home.api.model.impl.ValueTransportMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;

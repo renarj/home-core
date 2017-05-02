@@ -1,7 +1,7 @@
 package com.oberasoftware.home.core.state;
 
 import com.oberasoftware.home.api.model.State;
-import com.oberasoftware.home.api.types.Value;
+import com.oberasoftware.home.api.model.Value;
 
 import java.util.List;
 

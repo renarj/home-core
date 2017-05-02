@@ -11,5 +11,10 @@
 
     <artifactId>data-svc</artifactId>
 
-
+    <dependencies>
+        <dependency>
+            <groupId>com.oberasoftware</groupId>
+            <artifactId>home-api</artifactId>
+        </dependency>
+    </dependencies>
 </project>

@@ -3,7 +3,7 @@ package com.oberasoftware.home.core.edge;
 import com.oberasoftware.base.event.EventHandler;
 import com.oberasoftware.base.event.EventSubscribe;
 import com.oberasoftware.home.activemq.ActiveMQTopicSender;
-import com.oberasoftware.home.api.model.ValueTransportMessage;
+import com.oberasoftware.home.api.model.impl.ValueTransportMessage;
 import com.oberasoftware.home.core.mqtt.MQTTMessage;
 import com.oberasoftware.home.core.mqtt.MQTTPathParser;
 import com.oberasoftware.home.core.mqtt.ParsedPath;

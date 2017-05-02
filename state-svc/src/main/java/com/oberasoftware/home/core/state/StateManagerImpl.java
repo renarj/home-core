@@ -4,7 +4,7 @@ import com.oberasoftware.base.event.impl.LocalEventBus;
 import com.oberasoftware.home.api.impl.events.devices.StateUpdateEvent;
 import com.oberasoftware.home.api.managers.StateManager;
 import com.oberasoftware.home.api.model.State;
-import com.oberasoftware.home.api.types.Value;
+import com.oberasoftware.home.api.model.Value;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

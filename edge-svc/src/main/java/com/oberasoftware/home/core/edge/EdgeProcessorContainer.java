@@ -4,7 +4,7 @@ import com.oberasoftware.home.activemq.ActiveMQConfiguration;
 import com.oberasoftware.home.activemq.ActiveMQTopicListener;
 import com.oberasoftware.home.activemq.ActiveMQTopicSender;
 import com.oberasoftware.home.api.commands.BasicCommand;
-import com.oberasoftware.home.api.model.BasicCommandImpl;
+import com.oberasoftware.home.api.model.impl.BasicCommandImpl;
 import com.oberasoftware.home.core.mqtt.MQTTConfiguration;
 import com.oberasoftware.home.core.mqtt.MQTTTopicEventBus;
 import org.slf4j.Logger;

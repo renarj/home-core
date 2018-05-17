@@ -18,7 +18,11 @@
         </dependency>
         <dependency>
             <groupId>com.oberasoftware</groupId>
-            <artifactId>home-util</artifactId>
+            <artifactId>robo-util</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.oberasoftware</groupId>
+            <artifactId>robo-core</artifactId>
         </dependency>
     </dependencies>
 

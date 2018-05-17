@@ -3,7 +3,7 @@ package com.oberasoftware.home.command;
 import com.oberasoftware.base.event.EventHandler;
 import com.oberasoftware.base.event.EventSubscribe;
 import com.oberasoftware.home.activemq.ActiveMQTopicSender;
-import com.oberasoftware.home.api.commands.BasicCommand;
+import com.oberasoftware.robo.api.commands.BasicCommand;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

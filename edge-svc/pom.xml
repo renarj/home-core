@@ -18,7 +18,7 @@
         </dependency>
         <dependency>
             <groupId>com.oberasoftware</groupId>
-            <artifactId>home-mqtt</artifactId>
+            <artifactId>robo-mqtt</artifactId>
         </dependency>
     </dependencies>
 

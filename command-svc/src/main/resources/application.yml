@@ -1,6 +1,7 @@
 amq.producer.topic: commands
 amq.host: tcp://localhost:61616
 server.port: 9004
+management.security.enabled: false
 ---
 spring:
     profiles: production

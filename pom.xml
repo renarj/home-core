@@ -16,7 +16,7 @@
 
     <properties>
         <obera.base.version>1.1</obera.base.version>
-        <home.sdk.version>2.0-SNAPSHOT</home.sdk.version>
+        <robo.sdk.version>2.0-SNAPSHOT</robo.sdk.version>
 
         <docker.image.prefix>home-core</docker.image.prefix>
     </properties>
@@ -45,6 +45,10 @@
 
     <dependencies>
         <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-core</artifactId>
         </dependency>
@@ -62,13 +66,8 @@
         <dependencies>
             <dependency>
                 <groupId>com.oberasoftware</groupId>
-                <artifactId>home-mqtt</artifactId>
-                <version>${home.sdk.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.oberasoftware</groupId>
-                <artifactId>kafka-connector</artifactId>
-                <version>${project.version}</version>
+                <artifactId>robo-mqtt</artifactId>
+                <version>${robo.sdk.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.oberasoftware</groupId>
@@ -80,18 +79,19 @@
             <!-- obera deps -->
             <dependency>
                 <groupId>com.oberasoftware</groupId>
-                <artifactId>home-api</artifactId>
-                <version>${home.sdk.version}</version>
+                <artifactId>robo-api</artifactId>
+                <version>${robo.sdk.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.oberasoftware</groupId>
-                <artifactId>home-model</artifactId>
-                <version>${home.sdk.version}</version>
+                <artifactId>robo-core</artifactId>
+                <version>${robo.sdk.version}</version>
             </dependency>
+
             <dependency>
                 <groupId>com.oberasoftware</groupId>
-                <artifactId>home-util</artifactId>
-                <version>${project.version}</version>
+                <artifactId>robo-util</artifactId>
+                <version>${robo.sdk.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.moquette</groupId>
@@ -99,16 +99,10 @@
                 <version>0.8</version>
             </dependency>
 
-
-            <dependency>
-                <groupId>org.apache.kafka</groupId>
-                <artifactId>kafka-clients</artifactId>
-                <version>0.10.0.0</version>
-            </dependency>
             <dependency>
                 <groupId>com.datastax.cassandra</groupId>
                 <artifactId>cassandra-driver-core</artifactId>
-                <version>3.0.0</version>
+                <version>3.2.0</version>
             </dependency>
 
             <dependency>
@@ -121,7 +115,6 @@
     </dependencyManagement>
 
     <modules>
-        <module>kafka-connector</module>
         <module>state-svc</module>
         <module>command-svc</module>
         <module>data-svc</module>

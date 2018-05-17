@@ -1,7 +1,7 @@
 package com.oberasoftware.home.core.state;
 
-import com.oberasoftware.home.api.managers.StateManager;
-import com.oberasoftware.home.api.model.State;
+import com.oberasoftware.robo.api.managers.StateManager;
+import com.oberasoftware.robo.api.model.State;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;

@@ -14,7 +14,7 @@
     <dependencies>
         <dependency>
             <groupId>com.oberasoftware</groupId>
-            <artifactId>home-api</artifactId>
+            <artifactId>robo-api</artifactId>
         </dependency>
     </dependencies>
 </project>

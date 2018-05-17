@@ -19,7 +19,7 @@
         </dependency>
         <dependency>
             <groupId>com.oberasoftware</groupId>
-            <artifactId>home-api</artifactId>
+            <artifactId>robo-api</artifactId>
         </dependency>
         <dependency>
             <groupId>com.oberasoftware</groupId>

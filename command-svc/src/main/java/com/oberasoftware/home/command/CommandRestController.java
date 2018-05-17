@@ -1,7 +1,7 @@
 package com.oberasoftware.home.command;
 
 import com.oberasoftware.base.event.impl.LocalEventBus;
-import com.oberasoftware.home.api.model.impl.BasicCommandImpl;
+import com.oberasoftware.robo.core.model.BasicCommandImpl;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

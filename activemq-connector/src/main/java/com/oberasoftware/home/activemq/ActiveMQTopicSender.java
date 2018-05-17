@@ -1,6 +1,6 @@
 package com.oberasoftware.home.activemq;
 
-import com.oberasoftware.home.api.messaging.TopicSender;
+import com.oberasoftware.robo.api.messaging.TopicSender;
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

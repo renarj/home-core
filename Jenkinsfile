@@ -1,6 +1,6 @@
 node {
     stage ('checkout') {
-        git url: 'git@github.com:renarj/home-core.git'
+        git credentialsId: 'github-ssh', url: 'git@github.com:renarj/home-core.git'
     }
 
     stage ('build') {
@@ -11,20 +11,20 @@ node {
 
     stage ('command-svc-docker') {
         withMaven(maven: 'M3', jdk: 'JDK10') {
-            sh "mvn -f command-svc/pom.xml -B clean package docker:build"
+            sh "mvn -f command-svc/pom.xml -B clean package dockerfile:build"
         }
     }
 
 
     stage ('edge-svc-docker') {
         withMaven(maven: 'M3', jdk: 'JDK10') {
-            sh "mvn -f edge-svc/pom.xml -B clean package docker:build"
+            sh "mvn -f edge-svc/pom.xml -B clean package dockerfile:build"
         }
     }
 
     stage ('state-svc-docker') {
         withMaven(maven: 'M3', jdk: 'JDK10') {
-            sh "mvn -f state-svc/pom.xml -B clean package docker:build"
+            sh "mvn -f state-svc/pom.xml -B clean package dockerfile:build"
         }
     }
 

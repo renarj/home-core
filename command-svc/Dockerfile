@@ -3,10 +3,13 @@ VOLUME /tmp
 
 RUN apt-get update && apt-get install -y netcat
 
-ADD start.sh start.sh
+ARG BSH_SCRIPT
+ADD ${BSH_SCRIPT} start.sh
 RUN chmod +x start.sh
 
-ADD command-svc-*.jar command-svc.jar
+ARG JAR_FILE
+ADD ${JAR_FILE} command-svc.jar
+
 RUN bash -c 'touch /command-svc.jar'
 
 CMD ["/start.sh"]

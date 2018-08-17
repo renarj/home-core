@@ -2,10 +2,13 @@ FROM java:8
 VOLUME /tmp
 
 RUN apt-get update && apt-get install -y netcat
-ADD start.sh start.sh
+ARG BSH_SCRIPT
+ADD ${BSH_SCRIPT} start.sh
 RUN chmod +x start.sh
 
-ADD edge-svc-*.jar edge-svc.jar
+ARG JAR_FILE
+ADD ${JAR_FILE} edge-svc.jar
+
 RUN bash -c 'touch /edge-svc.jar'
 
 CMD ["/start.sh"]

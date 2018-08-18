@@ -20,10 +20,12 @@ spec:
         - containerPort: 9005
         env:
         - name: amq_host
-          value: amq
+          value: "amq"
         - name: mqtt_host
-          value: mqtt
-        - name: mqtt_port
+          value: "mqtt"
+        - name: mqtthost
+          value: "mqtt"
+        - name: mqttport
           value: "1883"
         - name: SPRING_PROFILES_ACTIVE
-          value: production
+          value: "production"

@@ -1,7 +1,8 @@
 amq.producer.topic: states
 amq.host: tcp://localhost:61616
 amq.consumer.topic: commands
-mqtt.host: tcp://mqtt.robot.renarj.nl:1883
+mqtthost: localhost
+mqttport: 1833
 server.port: 9005
 ---
 spring:
@@ -12,8 +13,7 @@ amq:
     topic: states
   consumer:
     topic: commands
-mqtt:
-  host: ${mqtt_host}
-  port: ${mqtt_port}
+mqtthost: ${mqtt_host}
+mqttport: ${mqtt_port}
 server:
   port: 9005

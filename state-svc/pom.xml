@@ -36,6 +36,11 @@
             <groupId>com.oberasoftware</groupId>
             <artifactId>activemq-connector</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>25.0-jre</version>
+        </dependency>
     </dependencies>
 
     <build>

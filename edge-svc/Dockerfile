@@ -1,4 +1,4 @@
-FROM java:8
+FROM openjdk:10
 VOLUME /tmp
 
 RUN apt-get update && apt-get install -y netcat

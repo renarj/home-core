@@ -1,0 +1,10 @@
+name: state
+version: 0.1
+description: State service
+keywords:
+- state
+- service
+maintainers:
+- name: Renze de Vries
+  email: renze@renarj.nl
+engine: gotpl

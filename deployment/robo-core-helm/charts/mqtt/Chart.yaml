@@ -1,0 +1,13 @@
+name: mqtt
+version: 0.1
+description: Moquette MQTT package
+keywords:
+- mqtt
+- moquette
+- iot
+- application
+home: https://github.com/andsel/moquette
+maintainers:
+- name: Renze de Vries
+  email: renze@renarj.nl
+engine: gotpl

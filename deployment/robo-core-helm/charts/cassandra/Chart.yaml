@@ -1,0 +1,10 @@
+name: cassandra
+version: 0.1
+description: Cassandra database
+keywords:
+- database
+- cassandra
+maintainers:
+- name: Renze de Vries
+  email: renze@renarj.nl
+engine: gotpl

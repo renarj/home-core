@@ -3,7 +3,7 @@ amq.consumer.topic: states
 cassandra.host: localhost
 cassandra.port: 9160
 spring.main.web-environment: true
-server.port: 9003
+server.port: 9006
 ---
 spring:
     profiles: production
@@ -12,7 +12,7 @@ amq:
   consumer:
     topic: states
 server:
-  port: 8080
+  port: 9006
 cassandra:
   host: ${cassandra_host}
   port: 9042

@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: edge
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: edge
+  template:
+    metadata:
+      labels:
+        app: edge
+    spec:
+      containers:
+      - name: edge
+        image: home-core/edge-svc:1.0-SNAPSHOT
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 9005
+        env:
+        - name: amq_host
+          value: amq
+        - name: mqtt_host
+          value: mqtt
+        - name: mqtt_port
+          value: "1883"
+        - name: SPRING_PROFILES_ACTIVE
+          value: production

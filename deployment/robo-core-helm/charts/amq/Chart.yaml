@@ -1,0 +1,12 @@
+name: amq
+version: 0.1
+description: ActiveMq package
+keywords:
+- activemq
+- jms
+- amq
+- application
+maintainers:
+- name: Renze de Vries
+  email: renze@renarj.nl
+engine: gotpl

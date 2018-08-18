@@ -1,0 +1,12 @@
+name: edge
+version: 0.1
+description: Edge Message processor
+keywords:
+- edge
+- message
+- processor
+- application
+maintainers:
+- name: Renze de Vries
+  email: renze@renarj.nl
+engine: gotpl

@@ -1,0 +1,12 @@
+apiVersion: v1
+name: robo-core-helm
+icon: https://www.oberasoftware.com/images/oberalogo.png
+version: 0.1
+description: Robotic automation stack
+keywords:
+- robotics
+- application
+maintainers:
+- name: Renze de Vries
+  email: renze@renarj.nl
+engine: gotpl

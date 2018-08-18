@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: state
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: state
+  template:
+    metadata:
+      labels:
+        app: state
+    spec:
+      containers:
+      - name: state
+        image: home-core/state-svc:1.0-SNAPSHOT
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 9006
+        env:
+        - name: amq_host
+          value: amq
+        - name: cassandra_host
+          value: cassandra-svc
+        - name: SPRING_PROFILES_ACTIVE
+          value: production

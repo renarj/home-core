@@ -1,0 +1,2 @@
+dockerTag: "1.0-SNAPSHOT"
+cassandraVersion: "3"
